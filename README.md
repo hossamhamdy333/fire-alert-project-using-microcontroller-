@@ -132,19 +132,8 @@ fire-alert-project-using-microcontroller/
 ├── README.md               # Main project README 
 
 
-
-
 ---
 
-## 👨‍💻 Project Team
-
-* **Abram Maged** – 20190003
-* **Moustafa Ahmed** – 20211003
-* **Hossam Hamdy** – 20210369
-* **Mohamed Awes** – 20210696
-* **Hassan Alaa El-Dein** – 20200571
-
----
 
 ## 🚀 Future Improvements
 
