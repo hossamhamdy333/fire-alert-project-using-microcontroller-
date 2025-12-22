@@ -110,22 +110,29 @@ The system continuously monitors environmental conditions such as **temperature 
 ## 📁 Repository Structure (Recommended)
 
 ```
-Fire-Fighting-System/
+fire-alert-project-using-microcontroller/
 │
 ├── code/
-│   └── 
+│   ├── mikro c code             
+│   ├── assebly code             
 │
-├── simulation/
-│   └──
+├── fritzing design/
+│   └── fritzing design    # Fritzing schematic & wiring
 │
-├── hardware/
-│   └── 
+├── hardware design/
+│   ├── circuit_diagram
+
 │
-├── report/
-│   └── 
+├── proteus design/
+│   ├── fire_alert.pdsprj   # Proteus simulation file
+│  
 │
-└── README.md
-```
+├── technical_report/
+│   ├── Fire_Alert_Report.pdf
+├── README.md               # Main project README 
+
+
+
 
 ---
 
