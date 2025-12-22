@@ -1,0 +1,69 @@
+.include "m32def.inc"
+; ================= REGISTER DEFINITIONS =================
+.def tempL = r16
+.def tempH = r17
+.def zone = r18
+.def flags = r19
+.def d1 = r20
+.def d2 = r21
+.equ THRESHOLD_ALARM = 60
+.equ THRESHOLD_FAULT = 5
+.org 0x0000
+rjmp RESET
+RESET:
+ ; Stack
+ ldi r16, high(RAMEND)
+ out SPH, r16
+ ldi r16, low(RAMEND)
+ out SPL, r16
+ ; PORTA
+ ldi r16, 0b11110000
+ out DDRA, r16
+ ldi r16, 0b00010000
+ out PORTA, r16
+ ; PORTB
+ ldi r16, 0b10000000
+ out DDRB, r16
+ ldi r16, 0b01111111
+ out PORTB, r16
+ ; PORTC
+ ldi r16, 0b00000011
+ out DDRC, r16
+ clr r16
+ out PORTC, r16
+ ; PORTD
+ ldi r16, 0xFF
+ out DDRD, r16
+ clr r16
+ out PORTD, r16
+ ; ADC
+ ldi r16, (1<<REFS0)
+ out ADMUX, r16
+ ldi r16, (1<<ADEN)|(1<<ADPS2)|(1<<ADPS1)
+ out ADCSRA, r16
+ clr flags
+MAIN:
+ clr zone
+ clr flags
+ZONE_LOOP:
+ cpi zone, 4
+ breq MAIN
+ ; Select ADC channel
+ ldi r16, (1<<REFS0)
+ or r16, zone
+ out ADMUX, r16
+ sbi ADCSRA, ADSC
+WAIT_ADC:
+ sbis ADCSRA, ADIF
+ rjmp WAIT_ADC
+ sbi ADCSRA, ADIF
+ in tempL, ADCL
+ in tempH, ADCH
+ ; Fake temperature using high byte
+ mov r16, tempH
+ cpi r16, THRESHOLD_ALARM
+ brlo NEXT_ZONE
+ sbr flags, (1<<0)
+NEXT_ZONE:
+ inc zone
+ rjmp ZONE_LOOP
